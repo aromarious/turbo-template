@@ -1,0 +1,56 @@
+{
+  "name": "@acme/template-monorepo",
+  "private": true,
+  "engines": {
+    "node": ">=22.14.0",
+    "pnpm": ">=9.6.0"
+  },
+  "version": "1.0.0",
+  "packageManager": "pnpm@10.11.1",
+  "scripts": {
+    "// * ビルド * //": "",
+    "build": "turbo run build",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo run clean",
+    "// * 開発 * //": "",
+    "dev": "turbo dev --continue --no-daemon",
+    "dev:watch": "turbo dev --continue --no-daemon",
+    "// * lint, prettier * //": "",
+    "format": "turbo run format --continue -- --cache --cache-location .cache/.prettiercache",
+    "format:fix": "turbo run rmat --continue -- --write --cache --cache-location .cache/.prettiercache",
+    "lint": "turbo run lint --continue -- --cache --cache-location .cache/.eslintcache",
+    "lint:fix": "turbo run lint --continue -- --fix --cache --cache-location .cache/.eslintcache",
+    "lint:staged": "lint-staged",
+    "lint:ws": "pnpm dlx sherif@latest",
+    "postinstall": "pnpm lint:ws",
+    "typecheck": "turbo run typecheck",
+    "premerge": "pnpm lint:fix && pnpm lint:ws && pnpm format:fix && pnpm typecheck",
+    "// * misc * //": "",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@acme/prettier-config": "workspace:*",
+    "@turbo/gen": "^2.5.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.0",
+    "prettier": "catalog:",
+    "turbo": "^2.5.4",
+    "typescript": "catalog:"
+  },
+  "prettier": "@acme/prettier-config",
+  "lint-staged": {
+    "{packages,tooling}/*/src/**/*.{js,jsx,ts,tsx}": [
+      "pnpm lint:fix",
+      "pnpm format:fix"
+    ],
+    "{docs,packages,tooling}/**/*.{md,json}": [
+      "pnpm format:fix"
+    ],
+    "{packages,tooling}/**/*.{json,yml,yaml}": [
+      "pnpm format:fix"
+    ],
+    "{packages,tooling}/*/src/**/*.{ts,tsx}": [
+      "echo '\n⚠️  TypeScript files detected in staged changes.\n💡 Please run type checking manually if needed: pnpm typecheck\n'"
+    ]
+  }
+}
