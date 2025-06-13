@@ -25,6 +25,10 @@
     "postinstall": "pnpm lint:ws",
     "typecheck": "turbo run typecheck",
     "premerge": "pnpm lint:fix && pnpm lint:ws && pnpm format:fix && pnpm typecheck",
+    "// * Docker * //": "",
+    "docker:up": "cd tooling/docker && docker-compose up -d",
+    "docker:down": "cd tooling/docker && docker-compose down",
+    "docker:logs": "cd tooling/docker && docker-compose logs -f",
     "// * misc * //": "",
     "prepare": "husky"
   },

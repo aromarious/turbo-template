@@ -36,23 +36,23 @@ pnpm docker:logs
 ## コンテナ名
 
 Docker Composeは自動的に以下の命名規則でコンテナを作成します：
-- PostgreSQL: `t3base_postgres_1`
-- pgAdmin: `t3base_pgadmin_1`
+- PostgreSQL: `template_postgres_1`
+- pgAdmin: `template_pgadmin_1`
 
-プロジェクト名（`t3base`）は `.env` の `APP_NAME` で設定されています。
+プロジェクト名（`template`）は `.env` の `APP_NAME` で設定されています。
 
 ### データベース接続情報
 
 - **PostgreSQL**:
   - Host: `localhost`
   - Port: `5432`
-  - Database: `t3base`
+  - Database: `template`
   - Username: `postgres`
   - Password: `password`
 
 - **pgAdmin**:
   - URL: http://localhost:5050
-  - Email: `admin@t3base.local`
+  - Email: `admin@template.local`
   - Password: `admin`
 
 ### 環境変数の設定
@@ -60,8 +60,8 @@ Docker Composeは自動的に以下の命名規則でコンテナを作成しま
 開発環境での使用に合わせて、ルートディレクトリの`.env`ファイルを以下のように設定してください：
 
 ```env
-DATABASE_URL="postgresql://postgres:password@localhost:5432/t3base"
-POSTGRES_URL="postgresql://postgres:password@localhost:5432/t3base"
+DATABASE_URL="postgresql://postgres:password@localhost:5432/template"
+POSTGRES_URL="postgresql://postgres:password@localhost:5432/template"
 ```
 
 **注意**: `.env`ファイルはNext.jsアプリケーションとDocker環境の両方で共有されます。

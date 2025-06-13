@@ -1,52 +1,52 @@
-name: ${APP_NAME:-t3base}
+name: ${APP_NAME:-template}
 
 services:
   postgres:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_NAME:-t3base}
+      POSTGRES_DB: ${DB_NAME:-template}
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-nkbkr0-9}
       # PostgreSQL configuration
-      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C"
+      POSTGRES_INITDB_ARGS: '--encoding=UTF-8 --locale=C'
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       # Persistent data storage - externalized to host directory
-      - /Volumes/ExtremePro/DockerVolumes/t3base-postgres-data:/var/lib/postgresql/data
+      - /Volumes/ExtremePro/DockerVolumes/template-postgres-data:/var/lib/postgresql/data
       # Custom PostgreSQL configuration
       - ./postgres.conf:/etc/postgresql/postgresql.conf
       # Initialization scripts
       - ./init-scripts:/docker-entrypoint-initdb.d
-    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+    command: ['postgres', '-c', 'config_file=/etc/postgresql/postgresql.conf']
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d t3base"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d template']
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 60s
     networks:
-      - t3base-network
+      - template-network
 
   # Optional: pgAdmin for database management
   pgadmin:
     image: dpage/pgadmin4:latest
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@t3base.local}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@template.local}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
-      - "${PGADMIN_PORT:-5050}:80"
+      - '${PGADMIN_PORT:-5050}:80'
     volumes:
-      - /Volumes/ExtremePro/DockerVolumes/t3base-pgadmin-data:/var/lib/pgadmin
+      - /Volumes/ExtremePro/DockerVolumes/template-pgadmin-data:/var/lib/pgadmin
     depends_on:
       postgres:
         condition: service_healthy
     networks:
-      - t3base-network
+      - template-network
 
 networks:
-  t3base-network:
+  template-network:
     driver: bridge
