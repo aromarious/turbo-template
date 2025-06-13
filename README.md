@@ -1,11 +1,11 @@
-# Drafting Monorepo
+# Turbo Template
 
-Turbo Repo + pnpmを使用したモノレポプロジェクトです。
+Turbo Repo + pnpmを使用したモノレポテンプレートプロジェクトです。
 
 ## プロジェクト構造
 
 ```
-drafting/
+turbo-template/
 ├── apps/           # アプリケーション
 ├── packages/       # 共有パッケージ・ライブラリ
 ├── tooling/        # 開発ツール設定（ESLint、Prettier等）
@@ -116,5 +116,5 @@ pnpm add @aromarious/package-b
 
 - 各パッケージは独立してビルド・テスト可能にする
 - 共通の設定はルートレベルで管理
-- パッケージ名は`@aromarious/`プレフィックスを使用
+- パッケージ名は`@acme/`プレフィックスを使用
 - TypeScriptの設定はルートのtsconfig.jsonを継承
