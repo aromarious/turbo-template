@@ -13,6 +13,16 @@ turbo-template/
 └── pnpm-workspace.yaml # pnpmワークスペース設定
 ```
 
+- `apps`には何も入っていません
+- `tooling`にて開発用ツールの設定をしてあります
+  - [commitlint](./tooling/commitlint/src/index.ts) `husky`の`commit-msg`フックとして設定済
+  - [docker](./tooling/docker/README.md) postgresのコンテナ設定済
+    - [.env](./.env) … [.env.example](./.env.example) を cp して作成、適切な値を設定
+    - [docker-compose.yml] postgresのデータディレクトリのマウント先を調整
+    - 起動 `pnpm docker:up` 停止 `pnpm docker:down`
+  - [eslint](./tooling/eslint/) それぞれのプロジェクトの`eslint.config.js`で適宜importして使う
+  - [github]()
+
 ## 前提条件
 
 - Node.js 22.14.0以上
