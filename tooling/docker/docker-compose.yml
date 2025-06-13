@@ -1,11 +1,11 @@
-name: ${APP_NAME:-template}
+name: ${APP_NAME}
 
 services:
   postgres:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_NAME:-template}
+      POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-nkbkr0-9}
       # PostgreSQL configuration

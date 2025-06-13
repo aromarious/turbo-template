@@ -1,0 +1,38 @@
+{
+  "name": "@acme/setup",
+  "version": "1.0.0",
+  "description": "Template setup utility for replacing package prefixes",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "setup-template": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "format": "prettier --check . --cache --cache-location .cache/.prettiercache",
+    "lint": "eslint . --cache --cache-location .cache/.eslintcache",
+    "setup-template": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "glob": "^11.0.0"
+  },
+  "devDependencies": {
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
+  },
+  "prettier": "@acme/prettier-config",
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

@@ -23,7 +23,7 @@
     "lint:fix": "turbo run lint --continue -- --fix --cache --cache-location .cache/.eslintcache",
     "lint:staged": "lint-staged",
     "lint:ws": "pnpm dlx sherif@latest",
-    "postinstall": "pnpm lint:ws",
+    "postinstall": "pnpm --filter @acme/setup build && pnpm --filter @acme/setup setup-template && pnpm lint:ws",
     "typecheck": "turbo run typecheck",
     "premerge": "pnpm lint:fix && pnpm lint:ws && pnpm format:fix && pnpm typecheck",
     "// * Docker * //": "",
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@acme/commitlint-config": "workspace:*",
     "@acme/prettier-config": "workspace:*",
+    "@acme/setup": "workspace:*",
     "@turbo/gen": "^2.5.4",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.0",
@@ -62,7 +63,7 @@
       "pnpm format:fix"
     ],
     "{packages,tooling}/*/src/**/*.{ts,tsx}": [
-      "pnpm typecheck",
+      "bash -c 'pnpm typecheck'",
       "echo '\n⚠️  TypeScript files detected in staged changes.\n💡 Please run type checking manually if needed: pnpm typecheck\n'"
     ]
   }
