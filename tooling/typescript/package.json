@@ -1,5 +1,6 @@
 {
   "name": "@acme/tsconfig",
+  "description": "Shared TypeScript configuration for monorepo packages",
   "private": true,
   "version": "0.1.0",
   "files": [

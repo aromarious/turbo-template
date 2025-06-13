@@ -1,3 +1,4 @@
 {
-  "name": "@acme/docker"
+  "name": "@acme/docker",
+  "description": "Docker configuration and compose files for development"
 }

@@ -1,5 +1,6 @@
 {
   "name": "@acme/tailwind-config",
+  "description": "Shared Tailwind CSS configuration for web and native",
   "version": "0.1.0",
   "private": true,
   "type": "module",

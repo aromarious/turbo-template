@@ -1,5 +1,6 @@
 {
   "name": "@acme/eslint-config",
+  "description": "Shared ESLint configuration for TypeScript, React, and Next.js",
   "private": true,
   "version": "0.3.0",
   "type": "module",

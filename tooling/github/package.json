@@ -1,3 +1,4 @@
 {
-  "name": "@acme/github"
+  "name": "@acme/github",
+  "description": "GitHub Actions workflows and issue templates"
 }

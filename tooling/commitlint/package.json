@@ -1,5 +1,6 @@
 {
   "name": "@acme/commitlint-config",
+  "description": "Shared commitlint configuration with Gitmoji support",
   "private": true,
   "version": "0.1.0",
   "type": "module",

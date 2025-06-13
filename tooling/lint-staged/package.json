@@ -1,3 +1,4 @@
 {
-  "name": "@acme/lint-staged"
+  "name": "@acme/lint-staged",
+  "description": "Lint-staged configuration for pre-commit hooks"
 }

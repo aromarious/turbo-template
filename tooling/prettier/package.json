@@ -1,5 +1,6 @@
 {
   "name": "@acme/prettier-config",
+  "description": "Shared Prettier configuration with import sorting",
   "private": true,
   "version": "0.1.0",
   "type": "module",
