@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist node_modules .cache",
     "dev": "tsc --watch",
     "format": "prettier --check . --cache --cache-location .cache/.prettiercache",
     "lint": "eslint . --cache --cache-location .cache/.eslintcache",

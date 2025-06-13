@@ -71,7 +71,7 @@ const config: UserConfig = {
   },
 }
 
-export default config
+module.exports = config
 
 // 設定を追加したければオーバーライドしてもよい
 // export default {

@@ -2,7 +2,7 @@
   "extends": "@acme/tsconfig/base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "module": "commonjs",
+    "module": "ES2022",
     "moduleResolution": "node",
     "target": "es2020",
     "noEmit": false
