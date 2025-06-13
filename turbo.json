@@ -1,9 +1,6 @@
 {
   "$schema": "https://turborepo.org/schema.json",
   "ui": "tui",
-  "generators": {
-    "config": "./turbo/generators/config.ts"
-  },
   "tasks": {
     "topo": {
       "dependsOn": ["^topo"]

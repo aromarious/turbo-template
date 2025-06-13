@@ -1,0 +1,10 @@
+{
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "Use gitmoji message format.\n例\n✨ feat: add user authentication feature\n🐛 fix: resolve memory leak in user service\n♻️ refactor: improve database connection logic\n📝 docs: update API documentation\n✅ test: add unit tests for user repository\n⚡ perf: optimize query performance\n⏪ revert: revert previous commit changes\n💄 style: format code with prettier\n👷 build: update webpack configuration\n💚 ci: update GitHub Actions workflow\n🚧 wip: work in progress on payment module\n🔧 chore: update dependencies\n🌍 env: add production environment variables"
+    },
+    {
+      "file": "tooling/commitlint/README.md"
+    }
+  ]
+}

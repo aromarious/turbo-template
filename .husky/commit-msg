@@ -1,2 +1,2 @@
-# pnpm commitlint --edit "$1"
-echo "commitlint is disabled"
+pnpm commitlint --edit "$1"
+# echo "commitlint is disabled"
