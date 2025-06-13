@@ -30,6 +30,7 @@
     "docker:down": "cd tooling/docker && docker-compose down",
     "docker:logs": "cd tooling/docker && docker-compose logs -f",
     "// * misc * //": "",
+    "gen": "turbo gen init",
     "prepare": "husky"
   },
   "devDependencies": {
