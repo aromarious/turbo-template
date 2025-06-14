@@ -16,7 +16,7 @@
     "dev": "tsc --watch",
     "format": "prettier --check . --cache --cache-location .cache/.prettiercache",
     "lint": "eslint . --cache --cache-location .cache/.eslintcache",
-    "setup-template": "node dist/index.js",
+    "setup-template": "pnpm build && node dist/index.js",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

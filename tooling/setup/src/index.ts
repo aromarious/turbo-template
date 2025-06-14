@@ -108,35 +108,68 @@ async function main(): Promise<number> {
   }
 
   // Remove lock file to force regeneration
-  const lockFile = 'pnpm-lock.yaml'
+  const lockFile = `${projectRoot}/pnpm-lock.yaml`
   if (existsSync(lockFile)) {
     unlinkSync(lockFile)
     console.log('Removed pnpm-lock.yaml')
   }
 
-  // Clean install to rebuild workspace dependencies
-  // console.log('Cleaning and reinstalling dependencies...')
+  // * pnpm clean:workspaces
+  console.log('🧹 Cleaning workspace...')
+  try {
+    execSync('pnpm clean', { stdio: 'inherit', cwd: projectRoot })
+    console.log('✅ Workspace cleaned successfully!')
+  } catch (error) {
+    console.error('Error during pnpm clean:', (error as Error).message)
+    return 1
+  }
 
-  // try {
-  //   console.log('🧹 Cleaning workspace...')
-  //   execSync('pnpm clean', { stdio: 'inherit' })
-  //   console.log('✅ Workspace cleaned successfully!')
+  // * pnpm install --ignore-scripts
+  console.log('📦 Installing packages with pnpm...')
+  try {
+    execSync('pnpm install --ignore-scripts', { stdio: 'inherit', cwd: projectRoot })
+    console.log('✅ Dependencies installed successfully!')
+  } catch (error) {
+    console.error('Error during pnpm install:', (error as Error).message)
+    return 1
+  }
 
-  //   console.log('📦 Installing packages with pnpm...')
-  //   execSync('pnpm install --force', { stdio: 'inherit' })
-  //   console.log('✅ Dependencies installed successfully!')
-  // } catch (error) {
-  //   console.error('Error during pnpm install:', (error as Error).message)
-  //   return
-  // }
-  // console.log('🔨 Building the project...')
-  // try {
-  //   execSync('pnpm build', { stdio: 'inherit' })
-  //   console.log('✅ Build completed successfully!')
-  // } catch (error) {
-  //   console.error('❌ Build failed:', (error as Error).message)
-  //   return
-  // }
+  // * pnpm build
+  console.log('🔨 Building the project...')
+  try {
+    execSync('pnpm build', { stdio: 'inherit', cwd: projectRoot })
+    console.log('✅ Build completed successfully!')
+  } catch (error) {
+    console.error('❌ Build failed:', (error as Error).message)
+    return 1
+  }
+
+  // Update postinstall script to remove setup-template
+  console.log('🔧 Updating postinstall script...')
+  const rootPackageJson = `${projectRoot}/package.json`
+  if (existsSync(rootPackageJson)) {
+    try {
+      const packageContent = readFileSync(rootPackageJson, 'utf8')
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const packageObj = JSON.parse(packageContent)
+
+      // Remove setup-template from postinstall
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (packageObj.scripts?.postinstall) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+        packageObj.scripts.postinstall = packageObj.scripts.postinstall
+          .replace('pnpm setup-template && ', '')
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          .replace('pnpm -F @acme/setup setup-template && ', '')
+      }
+
+      writeFileSync(rootPackageJson, JSON.stringify(packageObj, null, 2) + '\n', 'utf8')
+      console.log('✅ Postinstall script updated - setup-template will no longer run automatically')
+    } catch (error) {
+      console.error('❌ Failed to update postinstall script:', (error as Error).message)
+      // Don't return 1 here - setup was successful, just the postinstall update failed
+    }
+  }
 
   console.log('✅ Setup complete!')
   return 0
