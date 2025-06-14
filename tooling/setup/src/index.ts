@@ -69,7 +69,7 @@ async function main(): Promise<number> {
 
   if (!envPrefix) {
     console.log('No PACKAGE_PREFIX environment variable found. Skipping package prefix rename...')
-    return 1
+    return 0
   }
 
   const newPrefix = envPrefix.trim()
