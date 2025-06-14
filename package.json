@@ -64,8 +64,7 @@
       "pnpm format:fix"
     ],
     "{packages,tooling}/*/src/**/*.{ts,tsx}": [
-      "bash -c 'pnpm typecheck'",
-      "echo '\n⚠️  TypeScript files detected in staged changes.\n💡 Please run type checking manually if needed: pnpm typecheck\n'"
+      "bash -c 'pnpm typecheck'"
     ]
   }
 }

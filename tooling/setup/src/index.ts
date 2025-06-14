@@ -60,7 +60,7 @@ async function findAndReplaceFiles(
   }
 }
 
-async function main(): Promise<void> {
+async function main(): Promise<number> {
   console.log('🚀 Setting up your Turbo template...')
 
   // Check for environment variable first
@@ -68,9 +68,8 @@ async function main(): Promise<void> {
   const envPrefix = process.env.PACKAGE_PREFIX
 
   if (!envPrefix) {
-    console.log('No PACKAGE_PREFIX environment variable found.')
-    console.log('Run with: PACKAGE_PREFIX=@your-company pnpm setup-template')
-    return
+    console.log('No PACKAGE_PREFIX environment variable found. Skipping package prefix rename...')
+    return 1
   }
 
   const newPrefix = envPrefix.trim()
@@ -139,7 +138,15 @@ async function main(): Promise<void> {
   //   return
   // }
 
-  // console.log('✅ Setup complete!')
+  console.log('✅ Setup complete!')
+  return 0
 }
 
-main().catch(console.error)
+main()
+  .then((exitCode) => {
+    process.exit(exitCode)
+  })
+  .catch((error) => {
+    console.error('❌ Setup failed:', error)
+    process.exit(1)
+  })
