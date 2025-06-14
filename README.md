@@ -20,7 +20,7 @@ GitHub CLI または GitHub の `Use this template` を利用し、テンプレ�
 
 ```bash
 # ghコマンドでテンプレートからリポジトリを作成
-gh repo create my-project --template your-username/turbo-template --clone
+gh repo create my-project --template aromarious/turbo-template --clone
 
 # プロジェクトディレクトリに移動してパッケージプレフィックスを設定
 cd my-project

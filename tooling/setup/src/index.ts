@@ -37,7 +37,7 @@ async function findAndReplaceFiles(
     '.git/**',
     'dist/**',
     '.cache/**',
-    'tooling/setup/**',
+    // 'tooling/setup/**',
     'README.md',
   ]
 
@@ -83,46 +83,45 @@ async function main(): Promise<number> {
   await findAndReplaceFiles('@acme', newPrefix, projectRoot)
 
   // Update only dependencies in setup package.json (excluded from glob patterns)
-  const setupPackageJson = `${projectRoot}/tooling/setup/package.json`
-  if (existsSync(setupPackageJson)) {
-    const content = readFileSync(setupPackageJson, 'utf8')
-    // Only replace @acme references in dependencies and devDependencies sections
-    const updatedContent = content
-      .replace(
-        /"@acme\/(eslint-config|prettier-config|tsconfig)": "workspace:\*"/g,
-        `"${newPrefix}/$1": "workspace:*"`
-      )
-      .replace(
-        /"prettier": "@acme\/prettier-config"/g,
-        `"prettier": "${newPrefix}/prettier-config"`
-      )
-      .replace(/${newPrefix}\/setup/g, `@acme/setup`) // setup だけはもとのprefix
-    writeFileSync(setupPackageJson, updatedContent, 'utf8')
-    console.log(`Updated setup package dependencies: ${setupPackageJson}`)
-  }
+  // const setupPackageJson = `${projectRoot}/tooling/setup/package.json`
+  // if (existsSync(setupPackageJson)) {
+  //   const content = readFileSync(setupPackageJson, 'utf8')
+  //   // Only replace @acme references in dependencies and devDependencies sections
+  //   const updatedContent = content
+  //     .replace(
+  //       /"@acme\/(eslint-config|prettier-config|tsconfig)": "workspace:\*"/g,
+  //       `"${newPrefix}/$1": "workspace:*"`
+  //     )
+  //     .replace(
+  //       /"prettier": "@acme\/prettier-config"/g,
+  //       `"prettier": "${newPrefix}/prettier-config"`
+  //     )
+  //   writeFileSync(setupPackageJson, updatedContent, 'utf8')
+  //   console.log(`Updated setup package dependencies: ${setupPackageJson}`)
+  // }
 
-  // Update tsconfig.json in setup directory
-  const setupTsConfig = `${projectRoot}/tooling/setup/tsconfig.json`
-  if (existsSync(setupTsConfig)) {
-    replaceInFile(setupTsConfig, '@acme', newPrefix)
-  }
+  // // Update tsconfig.json in setup directory
+  // const setupTsConfig = `${projectRoot}/tooling/setup/tsconfig.json`
+  // if (existsSync(setupTsConfig)) {
+  //   replaceInFile(setupTsConfig, '@acme', newPrefix)
+  // }
 
-  // Remove lock file to force regeneration
-  const lockFile = `${projectRoot}/pnpm-lock.yaml`
-  if (existsSync(lockFile)) {
-    unlinkSync(lockFile)
-    console.log('Removed pnpm-lock.yaml')
-  }
+  // // Remove lock file to force regeneration
+  // const lockFile = `${projectRoot}/pnpm-lock.yaml`
+  // if (existsSync(lockFile)) {
+  //   unlinkSync(lockFile)
+  //   console.log('Removed pnpm-lock.yaml')
+  // }
 
-  // * pnpm clean:workspaces
-  console.log('🧹 Cleaning workspace...')
-  try {
-    execSync('pnpm clean', { stdio: 'inherit', cwd: projectRoot })
-    console.log('✅ Workspace cleaned successfully!')
-  } catch (error) {
-    console.error('Error during pnpm clean:', (error as Error).message)
-    return 1
-  }
+  // // * pnpm clean:workspaces
+  // console.log('🧹 Cleaning workspace...')
+  // try {
+  //   execSync('pnpm clean', { stdio: 'inherit', cwd: projectRoot })
+  //   console.log('✅ Workspace cleaned successfully!')
+  // } catch (error) {
+  //   console.error('Error during pnpm clean:', (error as Error).message)
+  //   return 1
+  // }
 
   // * pnpm install --ignore-scripts
   console.log('📦 Installing packages with pnpm...')
@@ -161,6 +160,8 @@ async function main(): Promise<number> {
           .replace('pnpm setup-template && ', '')
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           .replace('pnpm -F @acme/setup setup-template && ', '')
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          .replace(`pnpm -F ${newPrefix}/setup setup-template && `, '')
       }
 
       writeFileSync(rootPackageJson, JSON.stringify(packageObj, null, 2) + '\n', 'utf8')
