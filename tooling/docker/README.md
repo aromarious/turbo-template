@@ -6,7 +6,13 @@
 
 - `docker-compose.yml`: PostgreSQLとpgAdminのDocker Compose設定
 - `postgres.conf`: PostgreSQL設定ファイル
-- `.env`(プロジェクトルート): Docker Compose用環境変数（プロジェクト名、DB設定など）
+- `.env`または`.envrc`(プロジェクトルート): Docker Compose用環境変数（プロジェクト名、DB設定など）
+
+## 事前準備
+
+### データディレクトリの確認（必須）
+
+**重要**: Dockerコンテナを起動する前に、必ずデータ永続化用のディレクトリが存在するか確認してください。このディレクトリが存在しない場合、データベースのデータが永続化されず、コンテナを再起動するたびにデータベースがリセットされます。
 
 ## 使用方法
 
@@ -36,14 +42,16 @@ pnpm docker:logs
 ## コンテナ名
 
 Docker Composeは自動的に以下の命名規則でコンテナを作成します：
+
 - PostgreSQL: `template_postgres_1`
 - pgAdmin: `template_pgadmin_1`
 
-プロジェクト名（`template`）は `.env` の `APP_NAME` で設定されています。
+プロジェクト名（`template`）は環境変数 `APP_NAME` で設定されています。
 
 ### データベース接続情報
 
 - **PostgreSQL**:
+
   - Host: `localhost`
   - Port: `5432`
   - Database: `template`
@@ -57,17 +65,16 @@ Docker Composeは自動的に以下の命名規則でコンテナを作成しま
 
 ### 環境変数の設定
 
-開発環境での使用に合わせて、ルートディレクトリの`.env`ファイルを以下のように設定してください：
+開発環境での使用に合わせて、ルートディレクトリの`.env`または`.envrc`ファイルにて、以下のように設定してください：
 
 ```env
-DATABASE_URL="postgresql://postgres:password@localhost:5432/template"
-POSTGRES_URL="postgresql://postgres:password@localhost:5432/template"
+DATABASE_URL="postgresql://postgres:password@localhost:5432/turbo-template"
+POSTGRES_URL="postgresql://postgres:password@localhost:5432/turbo-template"
 ```
-
-**注意**: `.env`ファイルはNext.jsアプリケーションとDocker環境の両方で共有されます。
 
 ## 注意事項
 
 - 本設定は開発環境専用です
 - 本番環境では適切なセキュリティ設定を行ってください
 - データは`postgres_data`ボリュームに永続化されます
+- `postgres_data`ディレクトリは事前に作成しておくことを推奨します
