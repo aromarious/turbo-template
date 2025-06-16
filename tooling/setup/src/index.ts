@@ -30,6 +30,8 @@ async function findAndReplaceFiles(
     '**/tsconfig.json',
     '**/eslint.config.js',
     'pnpm-lock.yaml',
+    '.env.example',
+    '**/.envrc.*',
   ]
 
   const ignorePatterns = [
@@ -77,10 +79,18 @@ async function main(): Promise<number> {
 
   console.log(`Replacing @acme with ${newPrefix}...`)
 
-  // Get project root
+  // Get project root and project name
   const projectRoot = process.cwd().replace(/\/tooling\/setup$/, '')
+  const projectName = projectRoot.split('/').pop() ?? 'turbo-template'
+
+  console.log(`Replacing turbo-template with ${projectName}...`)
 
   await findAndReplaceFiles('@acme', newPrefix, projectRoot)
+
+  // Only replace turbo-template if project name is different
+  if (projectName !== 'turbo-template') {
+    await findAndReplaceFiles('turbo-template', projectName, projectRoot)
+  }
 
   // Update only dependencies in setup package.json (excluded from glob patterns)
   // const setupPackageJson = `${projectRoot}/tooling/setup/package.json`
