@@ -1,6 +1,6 @@
 # @acme/commitlint-config
 
-このパッケージは、monorepo用の共有commitlint設定を提供します。Gitmoji（絵文字付きコミット）スタイルに基づいて、一貫性のあるコミットメッセージの形式を強制し、各プロジェクトで個別に`index.ts`を作成する必要をなくします。
+このパッケージは、monorepo用の共有commitlint設定を提供します。Gitmoji（絵文字付きコミット）スタイルに基づいて、一貫性のあるコミットメッセージの形式を強制し、各プロジェクトで個別に`commitlint.config`を作成する必要をなくします。
 
 ## 📦 インストール
 
