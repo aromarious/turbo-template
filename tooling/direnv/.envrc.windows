@@ -34,32 +34,6 @@
 
 export APP_NAME="turbo-template"
 
-#
-# AUTH_SECRET:
-#   Used by better-auth for secure authentication.
-#   You can generate a secret using the following command:
-#   node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
-#
-export AUTH_SECRET=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-AUTH_SECRET' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
-
-#
-# AUTH_DISCORD_ID & AUTH_DISCORD_SECRET:
-#   Used by better-auth for Discord OAuth authentication.
-#   These credentials enable users to sign in using their Discord accounts.
-#   ID is the public application identifier, SECRET is the private key for secure communication.
-#
-export AUTH_DISCORD_ID=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-AUTH_DISCORD_ID' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
-export AUTH_DISCORD_SECRET=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-AUTH_DISCORD_SECRET' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
-
-#
-# AUTH_GITHUB_ID & AUTH_GITHUB_SECRET:
-#   Used by better-auth for GitHub OAuth authentication.
-#   These credentials enable users to sign in using their GitHub accounts.
-#   ID is the public application identifier, SECRET is the private key for secure communication.
-#
-export AUTH_GITHUB_ID=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-AUTH_GITHUB_ID' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
-export AUTH_GITHUB_SECRET=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-AUTH_GITHUB_SECRET' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
-
 # DATABASE CONFIGURATION
 # Docker Compose uses these variables and APP_NAME to set up the PostgreSQL database.
 export DB_HOST=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-DB_HOST' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "localhost")
