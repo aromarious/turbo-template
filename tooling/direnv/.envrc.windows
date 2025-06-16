@@ -1,0 +1,79 @@
+#
+# Environment variables configuration file for direnv + Windows Credential Manager
+# This file uses Windows Credential Manager to securely store and retrieve sensitive credentials
+#
+# SETUP INSTRUCTIONS:
+# Before using this configuration, you must store the sensitive credentials in Windows Credential Manager.
+# Use the following commands in Command Prompt or PowerShell to securely store each secret:
+#
+# 1. Store AUTH_SECRET (generate and store a random secret):
+#    cmdkey /generic:turbo-template-AUTH_SECRET /user:turbo-template /pass:your_generated_secret
+#
+# 2. Store Discord OAuth secrets:
+#    cmdkey /generic:turbo-template-AUTH_DISCORD_ID /user:turbo-template /pass:your_discord_id
+#    cmdkey /generic:turbo-template-AUTH_DISCORD_SECRET /user:turbo-template /pass:your_discord_secret
+#
+# 3. Store GitHub OAuth secrets:
+#    cmdkey /generic:turbo-template-AUTH_GITHUB_ID /user:turbo-template /pass:your_github_id
+#    cmdkey /generic:turbo-template-AUTH_GITHUB_SECRET /user:turbo-template /pass:your_github_secret
+#
+# 4. Store database credentials:
+#    cmdkey /generic:turbo-template-DB_HOST /user:turbo-template /pass:localhost
+#    cmdkey /generic:turbo-template-DB_PORT /user:turbo-template /pass:5432
+#    cmdkey /generic:turbo-template-DB_NAME /user:turbo-template /pass:turbo-template
+#    cmdkey /generic:turbo-template-DB_USER /user:turbo-template /pass:postgres
+#    cmdkey /generic:turbo-template-DB_PASSWORD /user:turbo-template /pass:your_db_password
+#
+# To update a stored credential:
+#    cmdkey /delete:turbo-template-SECRET_NAME
+#    cmdkey /generic:turbo-template-SECRET_NAME /user:turbo-template /pass:new_secret_value
+#
+# To verify stored credentials:
+#    cmdkey /list:turbo-template-SECRET_NAME
+#
+
+export APP_NAME="turbo-template"
+
+#
+# AUTH_SECRET:
+#   Used by better-auth for secure authentication.
+#   You can generate a secret using the following command:
+#   node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+#
+export AUTH_SECRET=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-AUTH_SECRET' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
+
+#
+# AUTH_DISCORD_ID & AUTH_DISCORD_SECRET:
+#   Used by better-auth for Discord OAuth authentication.
+#   These credentials enable users to sign in using their Discord accounts.
+#   ID is the public application identifier, SECRET is the private key for secure communication.
+#
+export AUTH_DISCORD_ID=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-AUTH_DISCORD_ID' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
+export AUTH_DISCORD_SECRET=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-AUTH_DISCORD_SECRET' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
+
+#
+# AUTH_GITHUB_ID & AUTH_GITHUB_SECRET:
+#   Used by better-auth for GitHub OAuth authentication.
+#   These credentials enable users to sign in using their GitHub accounts.
+#   ID is the public application identifier, SECRET is the private key for secure communication.
+#
+export AUTH_GITHUB_ID=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-AUTH_GITHUB_ID' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
+export AUTH_GITHUB_SECRET=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-AUTH_GITHUB_SECRET' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
+
+# DATABASE CONFIGURATION
+# Docker Compose uses these variables and APP_NAME to set up the PostgreSQL database.
+export DB_HOST=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-DB_HOST' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "localhost")
+export DB_PORT=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-DB_PORT' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "5432")
+export DB_NAME=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-DB_NAME' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "turbo-template")
+export DB_USER=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-DB_USER' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "postgres")
+export DB_PASSWORD=$(powershell.exe -Command "(Get-StoredCredential -Target 'turbo-template-DB_PASSWORD' -ErrorAction SilentlyContinue).GetNetworkCredential().Password" 2>/dev/null || echo "")
+export PGADMIN_PORT=5050
+export PGADMIN_DEFAULT_EMAIL="your-email@example.com"
+export PGADMIN_DEFAULT_PASSWORD="${DB_PASSWORD}"
+
+#
+# POSTGRES_URL:
+#   Connection string for the PostgreSQL database.
+#   This URL is used by Drizzle, better-auth of the app to connect to the database.
+#
+export POSTGRES_URL="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?workaround=supabase-pooler.vercel"

@@ -61,7 +61,7 @@ turbo-template/
 ### Docker
 - [Docker設定](./tooling/docker/README.md)
 - PostgreSQLコンテナ設定済み
-- 環境変数: [.env.example](./.env.example) を参考に `.env` を作成すること
+- 環境変数: [.env.example](./.env.example) を参考に `.env` を作成するか、`.envrc`を使って設定すること
 - 起動: `pnpm docker:up` 停止: `pnpm docker:down`
 
 ### ESLint

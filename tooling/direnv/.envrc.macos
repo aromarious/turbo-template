@@ -1,0 +1,76 @@
+#
+# Environment variables configuration file for direnv + macOS Keychain management
+# This file uses macOS Keychain to securely store and retrieve sensitive credentials
+#
+# SETUP INSTRUCTIONS:
+# Before using this configuration, you must store the sensitive credentials in macOS Keychain.
+# Use the following commands to securely store each secret:
+#
+# 1. Store AUTH_SECRET (generate and store a random secret):
+#    security add-generic-password -a turbo-template -s AUTH_SECRET -w "$(node -e "console.log(require('crypto').randomBytes(32).toString('base64'))")"
+#
+# 2. Store Discord OAuth secret:
+#    security add-generic-password -a turbo-template -s AUTH_DISCORD_SECRET -w "your_discord_secret_here"
+#
+# 3. Store GitHub OAuth secret:
+#    security add-generic-password -a turbo-template -s AUTH_GITHUB_SECRET -w "your_github_secret_here"
+#
+# 4. Store database password:
+#    security add-generic-password -a turbo-template -s DB_PASSWORD -w "your_database_password_here"
+#
+# 5. Store database host:
+#    security add-generic-password -a turbo-template -s DB_HOST -w "aws-0-ap-northeast-1.pooler.supabase.com"
+#
+# To update a stored secret, delete it first then add the new one:
+#    security delete-generic-password -a turbo-template -s SECRET_NAME
+#    security add-generic-password -a turbo-template -s SECRET_NAME -w "new_secret_value"
+#
+# To verify stored secrets (will prompt for keychain password):
+#    security find-generic-password -a turbo-template -s SECRET_NAME -w
+#
+
+export APP_NAME="turbo-template"
+
+#
+# AUTH_SECRET:
+#   Used by better-auth for secure authentication.
+#   You can generate a secret using the following command:
+#   node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+#
+export AUTH_SECRET=$(security find-generic-password -a $APP_NAME -s AUTH_SECRET -w)
+
+#
+# AUTH_DISCORD_ID & AUTH_DISCORD_SECRET:
+#   Used by better-auth for Discord OAuth authentication.
+#   These credentials enable users to sign in using their Discord accounts.
+#   ID is the public application identifier, SECRET is the private key for secure communication.
+#
+export AUTH_DISCORD_ID=$(security find-generic-password -a $APP_NAME -s AUTH_DISCORD_ID -w)
+export AUTH_DISCORD_SECRET=$(security find-generic-password -a $APP_NAME -s AUTH_DISCORD_SECRET -w)
+
+#
+# AUTH_GITHUB_ID & AUTH_GITHUB_SECRET:
+#   Used by better-auth for GitHub OAuth authentication.
+#   These credentials enable users to sign in using their GitHub accounts.
+#   ID is the public application identifier, SECRET is the private key for secure communication.
+#
+export AUTH_GITHUB_ID=$(security find-generic-password -a $APP_NAME -s AUTH_GITHUB_ID -w)
+export AUTH_GITHUB_SECRET=$(security find-generic-password -a $APP_NAME -s AUTH_GITHUB_SECRET -w)
+
+# DATABASE CONFIGURATION
+# Docker Compose uses these variables and APP_NAME to set up the PostgreSQL database.
+export DB_HOST=$(security find-generic-password -a $APP_NAME -s DB_HOST -w)
+export DB_PORT=$(security find-generic-password -a $APP_NAME -s DB_PORT -w)
+export DB_NAME=$(security find-generic-password -a $APP_NAME -s DB_NAME -w)
+export DB_USER=$(security find-generic-password -a $APP_NAME -s DB_USER -w)
+export DB_PASSWORD=$(security find-generic-password -a $APP_NAME -s DB_PASSWORD -w)
+export PGADMIN_PORT=5050
+export PGADMIN_DEFAULT_EMAIL="your-email@example.com"
+export PGADMIN_DEFAULT_PASSWORD="${DB_PASSWORD}"
+
+#
+# POSTGRES_URL:
+#   Connection string for the PostgreSQL database.
+#   This URL is used by Drizzle, better-auth of the app to connect to the database.
+#
+export POSTGRES_URL="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?workaround=supabase-pooler.vercel"

@@ -1,0 +1,82 @@
+#
+# Environment variables configuration file for direnv + Linux pass management
+# This file uses Linux pass to securely store and retrieve sensitive credentials
+#
+# SETUP INSTRUCTIONS:
+# Before using this configuration, you must store the sensitive credentials in pass.
+# Use the following commands to securely store each secret:
+#
+# 1. Initialize pass (if not already done):
+#    gpg --generate-key
+#    pass init your-gpg-key-id
+#
+# 2. Store AUTH_SECRET (generate and store a random secret):
+#    pass insert turbo-template/AUTH_SECRET
+#
+# 3. Store Discord OAuth secrets:
+#    pass insert turbo-template/AUTH_DISCORD_ID
+#    pass insert turbo-template/AUTH_DISCORD_SECRET
+#
+# 4. Store GitHub OAuth secrets:
+#    pass insert turbo-template/AUTH_GITHUB_ID
+#    pass insert turbo-template/AUTH_GITHUB_SECRET
+#
+# 5. Store database credentials:
+#    pass insert turbo-template/DB_HOST
+#    pass insert turbo-template/DB_PORT
+#    pass insert turbo-template/DB_NAME
+#    pass insert turbo-template/DB_USER
+#    pass insert turbo-template/DB_PASSWORD
+#
+# To update a stored secret:
+#    pass edit turbo-template/SECRET_NAME
+#
+# To verify stored secrets:
+#    pass show turbo-template/SECRET_NAME
+#
+
+export APP_NAME="turbo-template"
+
+#
+# AUTH_SECRET:
+#   Used by better-auth for secure authentication.
+#   You can generate a secret using the following command:
+#   node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+#
+export AUTH_SECRET=$(pass show turbo-template/AUTH_SECRET 2>/dev/null || echo "")
+
+#
+# AUTH_DISCORD_ID & AUTH_DISCORD_SECRET:
+#   Used by better-auth for Discord OAuth authentication.
+#   These credentials enable users to sign in using their Discord accounts.
+#   ID is the public application identifier, SECRET is the private key for secure communication.
+#
+export AUTH_DISCORD_ID=$(pass show turbo-template/AUTH_DISCORD_ID 2>/dev/null || echo "")
+export AUTH_DISCORD_SECRET=$(pass show turbo-template/AUTH_DISCORD_SECRET 2>/dev/null || echo "")
+
+#
+# AUTH_GITHUB_ID & AUTH_GITHUB_SECRET:
+#   Used by better-auth for GitHub OAuth authentication.
+#   These credentials enable users to sign in using their GitHub accounts.
+#   ID is the public application identifier, SECRET is the private key for secure communication.
+#
+export AUTH_GITHUB_ID=$(pass show turbo-template/AUTH_GITHUB_ID 2>/dev/null || echo "")
+export AUTH_GITHUB_SECRET=$(pass show turbo-template/AUTH_GITHUB_SECRET 2>/dev/null || echo "")
+
+# DATABASE CONFIGURATION
+# Docker Compose uses these variables and APP_NAME to set up the PostgreSQL database.
+export DB_HOST=$(pass show turbo-template/DB_HOST 2>/dev/null || echo "localhost")
+export DB_PORT=$(pass show turbo-template/DB_PORT 2>/dev/null || echo "5432")
+export DB_NAME=$(pass show turbo-template/DB_NAME 2>/dev/null || echo "turbo-template")
+export DB_USER=$(pass show turbo-template/DB_USER 2>/dev/null || echo "postgres")
+export DB_PASSWORD=$(pass show turbo-template/DB_PASSWORD 2>/dev/null || echo "")
+export PGADMIN_PORT=5050
+export PGADMIN_DEFAULT_EMAIL="your-email@example.com"
+export PGADMIN_DEFAULT_PASSWORD="${DB_PASSWORD}"
+
+#
+# POSTGRES_URL:
+#   Connection string for the PostgreSQL database.
+#   This URL is used by Drizzle, better-auth of the app to connect to the database.
+#
+export POSTGRES_URL="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?workaround=supabase-pooler.vercel"
