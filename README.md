@@ -11,8 +11,10 @@ Turbo Repo + pnpmを使用したモノレポテンプレートプロジェクト
 パッケージプレフィックスを指定してテンプレートを作成：
 
 ```bash
-PACKAGE_PREFIX=@your-company npx create-turbo@latest -e https://github.com/aromarious/turbo-template your-project
+PACKAGE_PREFIX=@my-company APP_NAME=my-project npx create-turbo@latest -e https://github.com/aromarious/turbo-template my-project
 ```
+
+`APP_NAME`を省略すると指定したプロジェクト名を使用します。
 
 ### 2. `gh`コマンドでテンプレートとして利用
 
@@ -24,7 +26,7 @@ gh repo create my-project --template aromarious/turbo-template --clone
 
 # プロジェクトディレクトリに移動してパッケージプレフィックスを設定
 cd my-project
-PACKAGE_PREFIX=@mycompany pnpm install
+PACKAGE_PREFIX=@my-company pnpm install
 ```
 
 ## このテンプレートの使用方法
