@@ -61,3 +61,9 @@ dist/
 .env.production
 .env.test
 .envrc
+
+# Docker volumes
+tooling/docker/postgres_data
+!tooling/docker/postgres_data/.gitkeep
+tooling/docker/pgadmin_data
+!tooling/docker/pgadmin_data/.gitkeep
