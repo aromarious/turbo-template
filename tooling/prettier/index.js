@@ -39,6 +39,12 @@ const config = {
         parser: 'babel',
       },
     },
+    {
+      files: '*.jsonc',
+      options: {
+        parser: 'jsonc',
+      },
+    },
   ],
 }
 
