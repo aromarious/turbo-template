@@ -5,9 +5,9 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_DB: ${DB_NAME:-${APP_NAME:-myapp}}
       POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-nkbkr0-9}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       # PostgreSQL configuration
       POSTGRES_INITDB_ARGS: '--encoding=UTF-8 --locale=C'
     ports:
@@ -27,7 +27,7 @@ services:
       retries: 3
       start_period: 60s
     networks:
-      - template-network
+      - turbo-template-network
 
   # Optional: pgAdmin for database management
   pgadmin:
@@ -45,8 +45,8 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - template-network
+      - turbo-template-network
 
 networks:
-  template-network:
+  turbo-template-network:
     driver: bridge

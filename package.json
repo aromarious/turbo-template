@@ -1,5 +1,5 @@
 {
-  "name": "@acme/template-monorepo",
+  "name": "@acme/turbo-template-monorepo",
   "private": true,
   "type": "module",
   "engines": {
